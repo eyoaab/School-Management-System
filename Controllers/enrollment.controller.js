@@ -1,4 +1,4 @@
-const Enrollment = require('../models/enrollment-model');
+const Enrollment = require('../Models/enrolment.model');
 const User = require('../Models/user.model');
 const Course = require('../Models/course.model');
 
