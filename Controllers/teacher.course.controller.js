@@ -1,5 +1,5 @@
-const Course = require('../models/Course');
-const User = require('../models/User');
+const Course = require('../Models/course.model');
+const User = require('../Models/user.model');
 
 // Assign a teacher to a course
 exports.assignTeacherToCourse = async (req, res) => {

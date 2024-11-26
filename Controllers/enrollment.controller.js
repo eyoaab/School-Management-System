@@ -1,34 +1,50 @@
-const Enrollment = require('../models/entolment-model');
-const User = require('../models/User');
-const Course = require('../models/Course');
+const Enrollment = require('../models/enrollment-model');
+const User = require('../Models/user.model');
+const Course = require('../Models/course.model');
 
 // Enroll a student in a course
 exports.enrollStudent = async (req, res) => {
   try {
     const { studentId, courseId, semesterId } = req.body;
 
+    // Check if all required fields are provided
+    if (!studentId || !courseId || !semesterId) {
+      return res.status(400).json({ message: 'Missing required fields: studentId, courseId, semesterId' });
+    }
+
+    // Validate student existence and role
     const student = await User.findOne({ _id: studentId, role: 'student' });
-    if (!student) return res.status(404).json({ message: 'Student not found or invalid role' });
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found or invalid role' });
+    }
 
-    // Verify course exists
+    // Verify if the course exists
     const course = await Course.findById(courseId);
-    if (!course) return res.status(404).json({ message: 'Course not found' });
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
 
-    // Check if student is already enrolled in the course
+    // Check if the student is already enrolled in the course
     const existingEnrollment = await Enrollment.findOne({ student: studentId, course: courseId });
-    if (existingEnrollment) return res.status(400).json({ message: 'Student is already enrolled in this course' });
+    if (existingEnrollment) {
+      return res.status(400).json({ message: 'Student is already enrolled in this course' });
+    }
 
-    // Create and save new enrollment
+    // Create new enrollment record
     const enrollment = new Enrollment({
       student: studentId,
       course: courseId,
       semester: semesterId,
     });
 
+    // Save enrollment to the database
     await enrollment.save();
-    res.status(201).json(enrollment);
+    res.status(201).json({
+      message: 'Student enrolled successfully',
+      enrollment,
+    });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -37,11 +53,13 @@ exports.getEnrollmentsByStudent = async (req, res) => {
   try {
     const { studentId } = req.params;
 
-    // Verify student exists
+    // Verify student exists and is a student
     const student = await User.findOne({ _id: studentId, role: 'student' });
-    if (!student) return res.status(404).json({ message: 'Student not found' });
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
 
-    // Get enrollments for the student and populate course and semester details
+    // Get enrollments for the student with populated course and semester details
     const enrollments = await Enrollment.find({ student: studentId })
       .populate('course', 'name description credits')
       .populate('semester', 'name startDate endDate');
@@ -59,13 +77,20 @@ exports.updateEnrollmentGrades = async (req, res) => {
     const { grades } = req.body;
 
     // Ensure grades are provided
-    if (!grades) return res.status(400).json({ message: 'Grades are required' });
+    if (!grades) {
+      return res.status(400).json({ message: 'Grades are required' });
+    }
 
-    // Update enrollment with new grades
+    // Find and update the enrollment with new grades
     const enrollment = await Enrollment.findByIdAndUpdate(enrollmentId, { grades }, { new: true });
-    if (!enrollment) return res.status(404).json({ message: 'Enrollment not found' });
+    if (!enrollment) {
+      return res.status(404).json({ message: 'Enrollment not found' });
+    }
 
-    res.status(200).json(enrollment);
+    res.status(200).json({
+      message: 'Enrollment updated successfully',
+      enrollment,
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
