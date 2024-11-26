@@ -5,6 +5,10 @@ const Course = require('../Models/course.model');
 // Enroll a student in a course
 exports.enrollStudent = async (req, res) => {
   try {
+    const userRole =  req.user.role;
+    if (userRole!== 'student') {
+      return res.status(403).json({ message: 'Only students can enroll in courses' });
+    }
     const { studentId, courseId, semesterId } = req.body;
 
     // Check if all required fields are provided
@@ -73,6 +77,10 @@ exports.getEnrollmentsByStudent = async (req, res) => {
 // Update enrollment grades
 exports.updateEnrollmentGrades = async (req, res) => {
   try {
+    const userRole =  req.user.role;
+    if (userRole!== 'teacher' && userRole!== 'administrator') {
+      return res.status(403).json({ message: 'Only teachers and administrator can update enrollment grades' });
+    }
     const { enrollmentId } = req.params;
     const { grades } = req.body;
 

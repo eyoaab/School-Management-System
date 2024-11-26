@@ -3,6 +3,10 @@ const Semester = require('../Models/semister.model');
 // Create a new semester
 exports.createSemester = async (req, res) => {
   try {
+    const userRole =  req.user.role;
+    if (userRole!== 'administrator') {
+      return res.status(403).json({ message: 'Only administrator can create semester records' });
+    }
     const semester = new Semester(req.body);
     await semester.save();
     res.status(201).json(semester);
@@ -35,6 +39,10 @@ exports.getSemesterById = async (req, res) => {
 // Update a semester
 exports.updateSemester = async (req, res) => {
   try {
+    const userRole =  req.user.role;
+    if (userRole!== 'administrator') {
+      return res.status(403).json({ message: 'Only administrator can Update semester records' });
+    }
     const semester = await Semester.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!semester) return res.status(404).json({ message: 'Semester not found' });
     res.status(200).json(semester);
@@ -46,6 +54,10 @@ exports.updateSemester = async (req, res) => {
 // Delete a semester
 exports.deleteSemester = async (req, res) => {
   try {
+    const userRole =  req.user.role;
+    if (userRole!== 'administrator') {
+      return res.status(403).json({ message: 'Only administrator can Delete semester records' });
+    }
     const semester = await Semester.findByIdAndDelete(req.params.id);
     if (!semester) return res.status(404).json({ message: 'Semester not found' });
     res.status(200).json({ message: 'Semester deleted' });

@@ -4,6 +4,10 @@ const User = require('../Models/user.model');
 // Assign a teacher to a course
 exports.assignTeacherToCourse = async (req, res) => {
   try {
+    const userRole =  req.user.role;
+    if (userRole!== 'administrator') {
+      return res.status(403).json({ message: 'Only administrator can assign teachers to courses' });
+    }
     const { teacherId, courseId } = req.body;
 
     // Verify teacher exists and is of type 'teacher'
@@ -60,6 +64,10 @@ exports.getTeachersByCourse = async (req, res) => {
 // Remove a teacher from a course
 exports.removeTeacherFromCourse = async (req, res) => {
   try {
+    const userRole =  req.user.role;
+    if (userRole!== 'administrator') {
+      return res.status(403).json({ message: 'Only administrator can remove teachers from courses' });
+    }
     const { teacherId, courseId } = req.body;
 
     // Verify course exists

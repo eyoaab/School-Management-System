@@ -4,6 +4,10 @@ const jwt = require('jsonwebtoken');
 
 exports.createUser = async (req, res) => {
   try {
+    const userRole = req.user.role;
+    if (userRole!== 'administrator') {
+      return res.status(403).json({ message: 'Only administrators can create users.' });
+    }
     const { email, username, password, role } = req.body;
 
     // Validate the role field
@@ -44,6 +48,10 @@ exports.createUser = async (req, res) => {
 // Get all users
 exports.getAllUsers = async (req, res) => {
   try {
+    const userRole = req.user.role;
+    if (userRole!== 'administrator') {
+      return res.status(403).json({ message: 'only administrator can see all Users' });
+    }
     const users = await User.find();
     res.status(200).json(users);
   } catch (error) {
@@ -65,8 +73,16 @@ exports.getUserById = async (req, res) => {
 // Update a user
 exports.updateUser = async (req, res) => {
   try {
+    const userRole = req.user.role;
+    const userId = req.user.id;
+
+    const tempUser = await User.findById(req.params.id);
+    if (!tempUser) return res.status(404).json({ message: 'User not found' });
+
+    if (tempUser.id !== userId || userRole !== 'administrator') return res.status(403).json({message: 'you are not authorized to update this account'});
+
     const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!user) return res.status(404).json({ message: 'User not found' });
+
     res.statu(200).json(user);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -76,8 +92,12 @@ exports.updateUser = async (req, res) => {
 // Delete a user
 exports.deleteUser = async (req, res) => {
   try {
+    const userRole = req.user.role;
+    if (userRole !== 'administrator')return res.status(403).json({message:'You are not allowed to delete a user.Only administrator can delete a user.'});
+   
     const user = await User.findByIdAndDelete(req.params.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
+    
     res.status(200).json({ message: 'User deleted' });
   } catch (error) {
     res.status(500).json({ message: error.message });

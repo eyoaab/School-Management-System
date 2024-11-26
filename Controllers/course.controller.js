@@ -3,6 +3,10 @@ const Course = require('../Models/course.model');
 // Create a new course
 exports.createCourse = async (req, res) => {
   try {
+    const userRole =  req.user.role;
+    if (userRole!== 'administrator') {
+      return res.status(403).json({ message: 'Only administrator can create Course records' });
+    }
     const course = new Course(req.body);
     await course.save();
     res.status(201).json(course);
@@ -35,6 +39,11 @@ exports.getCourseById = async (req, res) => {
 // Update a course
 exports.updateCourse = async (req, res) => {
   try {
+    const userRole =  req.user.role;
+    if (userRole!== 'administrator') {
+      return res.status(403).json({ message: 'Only administrator can Update Course records' });
+    }
+
     const course = await Course.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!course) return res.status(404).json({ message: 'Course not found' });
     res.json(course);
@@ -46,6 +55,10 @@ exports.updateCourse = async (req, res) => {
 // Delete a course
 exports.deleteCourse = async (req, res) => {
   try {
+    const userRole =  req.user.role;
+    if (userRole!== 'administrator') {
+      return res.status(403).json({ message: 'Only administrator can Delete Course records' });
+    }
     const course = await Course.findByIdAndDelete(req.params.id);
     if (!course) return res.status(404).json({ message: 'Course not found' });
     res.json({ message: 'Course deleted' });

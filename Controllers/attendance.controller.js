@@ -6,6 +6,10 @@ const Semester = require('../Models/semister.model');
 // Create an attendance record
 exports.createAttendance = async (req, res) => {
   try {
+    const userRole =  req.user.role;
+    if (userRole!== 'teacher' && userRole!== 'administrator') {
+      return res.status(403).json({ message: 'Only teachers and administrator can create attendance records' });
+    }
     const { studentId, courseId, semesterId, date, status } = req.body;
 
     // Validate that the student exists
@@ -33,6 +37,10 @@ exports.createAttendance = async (req, res) => {
 // Get all attendance records for a specific student
 exports.getAttendanceByStudent = async (req, res) => {
   try {
+    const userRole =  req.user.role;
+    if (userRole!== 'teacher' && userRole!== 'administrator') {
+      return res.status(403).json({ message: 'Only teachers and administrator can get all attendance records' });
+    }
     const { studentId } = req.params;
 
     // Find attendance records for the student
@@ -50,6 +58,10 @@ exports.getAttendanceByStudent = async (req, res) => {
 // Get all attendance records for a specific course
 exports.getAttendanceByCourse = async (req, res) => {
   try {
+    const userRole =  req.user.role;
+    if (userRole!== 'teacher' && userRole!== 'administrator') {
+      return res.status(403).json({ message: 'Only teachers and administrator can see attendance records' });
+    }
     const { courseId } = req.params;
 
     // Find attendance records for the course
@@ -66,6 +78,10 @@ exports.getAttendanceByCourse = async (req, res) => {
 // Update attendance status
 exports.updateAttendanceStatus = async (req, res) => {
   try {
+    const userRole =  req.user.role;
+    if (userRole!== 'teacher' && userRole!== 'administrator') {
+      return res.status(403).json({ message: 'Only teachers and administrator can Update attendance records' });
+    }
     const { attendanceId, status } = req.body;
 
     // Validate the attendance record exists
@@ -85,6 +101,10 @@ exports.updateAttendanceStatus = async (req, res) => {
 // Delete an attendance record
 exports.deleteAttendance = async (req, res) => {
   try {
+    const userRole =  req.user.role;
+    if (userRole!== 'teacher' && userRole!== 'administrator') {
+      return res.status(403).json({ message: 'Only teachers and administrator can Delete attendance records' });
+    }
     const { attendanceId } = req.params;
 
     // Validate the attendance record exists
