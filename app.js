@@ -2,17 +2,17 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-const connectDB = require("./Configurations/db-config");
-const authMiddleware = require('./Middlewares/auth-middleware');
+const connectDB = require("./Configurations/db.config");
+const authMiddleware = require('./Middlewares/auth.middleware');
 const userController = require('./Controllers/user.controller');
 
 // Routes
-const userRoute = require('./Routes/user.route');
-const courseRoute = require('./Routes/course.route');
-const attendanceRoute = require('./Routes/attendance.route');
-const teacherCourseRoute = require('./Routes/teacher.course.route');
-const enrollmentRoute = require('./Routes/enrollment.route');
-const semesterRoute = require('./Routes/semister.route');
+const userRoute = require('./Routes/user.routes');
+const courseRoute = require('./Routes/course.routes');
+const attendanceRoute = require('./Routes/attendance.routes');
+const teacherCourseRoute = require('./Routes/teacher.course.routes');
+const enrollmentRoute = require('./Routes/enrollment.routes');
+const semesterRoute = require('./Routes/semister.routes');
 
 // Initialize app and load environment variables
 dotenv.config();
