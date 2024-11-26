@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dotEnv = require("dotenv");
+const bodyParser = require('body-parser');
 
 const connectDB = require("./Configurations/db-config");
 const authMiddleWare = require('./Middlewares/auth-middleware');
@@ -14,18 +15,18 @@ const enrollmentRoute = require('./Routes/enrollment.route');
 const semesterRoute = require('./Routes/semister.route');
 
 const app = express();
-app.use(express.json());
+app.use(bodyParser.json());
 dotEnv.config();
   
   app.use(cors());
   connectDB();
 
   // Define the routes
-  app.use('/api/users',userRoute);
-  app.use('/api/courses', authMiddleWare,courseRoute);
-  app.use('/api/attendances', authMiddleWare,attendanceRoute);
-  app.use('/api/teacher-courses',authMiddleWare, teacherCourseRoute);
-  app.use('/api/enrollments',authMiddleWare, enrollmentRoute);
-  app.use('/api/semesters', authMiddleWare,semesterRoute);
+  app.use('/users',userRoute);
+  app.use('/courses', authMiddleWare,courseRoute);
+  app.use('/attendances', authMiddleWare,attendanceRoute);
+  app.use('/teacher-courses',authMiddleWare, teacherCourseRoute);
+  app.use('/enrollments',authMiddleWare, enrollmentRoute);
+  app.use('/semesters', authMiddleWare,semesterRoute);
 
 module.exports = app;
