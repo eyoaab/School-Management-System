@@ -5,7 +5,7 @@ const authMiddleWare = require('../Middlewares/auth-middleware');
 
 
 // Create a new user
-router.post('/create',authMiddleWare, userController.createUser);
+router.post('/create', userController.createUser);
 
 // Get all users
 router.get('/', authMiddleWare,userController.getAllUsers);

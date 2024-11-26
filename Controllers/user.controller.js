@@ -4,20 +4,20 @@ const jwt = require('jsonwebtoken');
 
 exports.createUser = async (req, res) => {
   try {
-    // const userRole = req.user.role;
-    // if (userRole!== 'administrator') {
-    //   return res.status(403).json({ message: 'Only administrators can create users.' });
-    // }
-    const { email, username, password, role } = req.body;
+    
+    const { email, password, role } = req.body;
 
     // Validate the role field
     if (!['student', 'teacher', 'administrator'].includes(role)) {
       return res.status(400).json({ message: 'Invalid role provided.' });
     }
+    if (role  == 'administrator') {
+      return res.status(403).json({ message: 'You can not create account as an administrator!' });
+    }
 
       const existingUser = await User.findOne({ $or: [{ email }] });
       if (existingUser) {
-        return res.status(400).json({ message: 'User with this email or username already exists.' });
+        return res.status(400).json({ message: 'User with this email already exists.' });
       }
 
     // Hash the password
