@@ -22,4 +22,10 @@ router.delete('/:id',authMiddleWare, userController.deleteUser);
 // Login a user
 router.post('/login',userController.loginUser);
 
+// Get Teachers
+router.get('/teachers', authMiddleWare, userController.getAllTeachers);
+
+// Get Students
+router.get('/students', authMiddleWare, userController.getAllStudents);
+
 module.exports = router;
