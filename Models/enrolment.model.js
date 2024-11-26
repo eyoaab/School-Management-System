@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const enrollmentSchema = new mongoose.Schema({
-    student: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Student ID
-    course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true }, // Course ID
-    semester: { type: mongoose.Schema.Types.ObjectId, ref: 'Semester', required: true }, // Semester ID
+    student: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, 
+    course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true }, 
+    semester: { type: mongoose.Schema.Types.ObjectId, ref: 'Semester', required: true }, 
     status: {
       type: String,
       enum: ['enrolled', 'completed', 'dropped'],
