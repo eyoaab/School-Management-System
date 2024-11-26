@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 
 const connectDB = require("./Configurations/db-config");
 const authMiddleware = require('./Middlewares/auth-middleware');
+const userController = require('./Controllers/user.controller');
 
 // Routes
 const userRoute = require('./Routes/user.route');
@@ -27,10 +28,12 @@ connectDB();
 // Middlewares
 app.use(express.json()); 
 app.use(cors()); 
-
 // Routes
-app.use('/users', userRoute);
+
 app.use(authMiddleware); 
+app.use('/users', userRoute);
+app.use('/Allstudents', userController.getAllStudents);
+app.use('/AllTeachers',userController.getAllTeachers);
 app.use('/courses', courseRoute);
 app.use('/attendances', attendanceRoute);
 app.use('/teacher-courses', teacherCourseRoute);

@@ -26,6 +26,6 @@ router.post('/login',userController.loginUser);
 router.get('/teachers', authMiddleWare, userController.getAllTeachers);
 
 // Get Students
-router.get('/students', authMiddleWare, userController.getAllStudents);
+router.get('/', authMiddleWare, userController.getAllStudents);
 
 module.exports = router;
