@@ -11,33 +11,37 @@ A feature-rich school management system built with **Node.js** and **MongoDB**. 
 6. **Get Specific User**: Fetch details of a single user by their unique ID.
 
 ### **Course Features**
-1.**Create Course**: Create a new course with attributes such as course name, description, and credits.
-2.**Update Course**: Modify an existing course's information, such as description and prerequisite courses.
-3.**Delete Course**: Remove a course from the system.
-4.**Get All Courses**: Retrieve a list of all courses in the system.
-5.**Get Specific Course**: Fetch detailed information about a specific course by its ID.
+1.  **Create Course**: Create a new course with attributes such as course name, description, and credits.
+2.  **Update Course**: Modify an existing course's information, such as description and prerequisite courses.
+3.  **Delete Course**: Remove a course from the system.
+4.  **Get All Courses**: Retrieve a list of all courses in the system.
+5.  **Get Specific Course**: Fetch detailed information about a specific course by its ID.
 
 ### **Teacher to Course Mapping***
-1.**Assign Teacher to Course**: Link a teacher to a course in a specific semester.
-2.**Update Teacher to Course Mapping**: Modify teacher assignments to courses as needed.
-3.**Remove Teacher from Course**: Unassign a teacher from a course.
-
+1.  **Assign Teacher to Course**: Link a teacher to a course in a specific semester.
+2.  **Update Teacher to Course Mapping**: Modify teacher assignments to courses as needed.
+3.  **Remove Teacher from Course**: Unassign a teacher from a course.
+4.  **Get all Mappings**: Get all Mapping(only for admin)
+5.  **Get single Mappings**: To get single mapping.
+  
 ### **Semester Features**
-1.**Create Semester**: Create a new semester with a name, start date, end date, and associated courses.
-2.**Update Semester**: Modify semester details such as the start and end dates or the courses offered.
-3.**Get All Semesters**: Retrieve a list of all semesters.
-4.**Get Specific Semester**: Fetch detailed information of a specific semester by its ID.
+1.  **Create Semester**: Create a new semester with a name, start date, end date, and associated courses.
+2.  **Update Semester**: Modify semester details such as the start and end dates or the courses offered.
+3.  **Delete Semester**: Delete a semester with a spasfic courses.
+4.  **Get All Semesters**: Retrieve a list of all semesters.
+5.  **Get Specific Semester**: Fetch detailed information of a specific semester by its ID.
 
 ### **Enrollment Feature**
-1.**Enroll Student in Course**: Register a student for a specific course in a particular semester.
-2.**Update Enrollment Status**: Modify a student's enrollment status (e.g., enrolled, completed, or dropped).
-3.**Add Grades to Enrollment**: Assign grades (midterm, final, overall) to students enrolled in a course.
-4.**Get Enrollment Details**: Retrieve detailed enrollment information for a student and course.
+1.  **Enroll Student in Course**: Register a student for a specific course in a particular semester.
+2.  **Update Enrollment Status**: Modify a student's enrollment status (e.g., enrolled, completed, or dropped).
+3.  **Add Grades to Enrollment**: Assign grades (midterm, final, overall) to students enrolled in a course.
+4.  **Get Enrollment Details**: Retrieve detailed enrollment information for a student and course.
 
 ### **Attendance Features**
-1.**Record Attendance**: Mark attendance for students in a specific course and semester.
-2.**Update Attendance**: Modify a student's attendance record (e.g., from absent to present).
-3.**Get Attendance**: Fetch attendance records for a student or a specific course.
+1.  **Record Attendance**: Mark attendance for students in a specific course and semester.
+2.  **Update Attendance**: Modify a student's attendance record (e.g., from absent to present).
+3.  **Get All Attendance**: Fetch attendance records for a student or a specific course.
+4.  **Get Single Attendance**: Feach attenndance using a single id.
 ---
 
 ## Tech Stack
@@ -98,8 +102,7 @@ School Management System/
 If you prefer to use the already deployed version of the backend, follow these steps:
 
 1. **Base URL**:  
-   Use the deployed API base URL for all requests: "https://school-management-system-5qcl.onrender.com"
-   
+🔗 Use the deployed API base URL for all requests: => https://school-management-system-5qcl.onrender.com
 2. **Authentication**:  
 - Most endpoints require authentication. Ensure you obtain a valid JSON Web Token (JWT) by logging in via the `/users/login` endpoint.
 - Include the token in the `Authorization` header for subsequent requests:
@@ -138,7 +141,13 @@ If you prefer to use the already deployed version of the backend, follow these s
 ## **Teacher to Course Mapping Endpoints**
 | Method | Endpoint                  | Description                             |
 |--------|---------------------------|-----------------------------------------|
-| POST   | `/api/teacher-courses`    | Assign a teacher to a course            |
+| POST   | `/teacher-courses`    | Assign a teacher to a course            |
+| PUT   | `/teacher-courses/:id`    | Update a Assignment          |
+| DELETE   | `/teacher-courses/:id`    | delete spasfic assignment            |
+| GET   | `/teacher-courses`    | Get all assigments           |
+| GET   | `/teacher-courses/:id`    | Get speasfic assigments           |
+
+
 
 ---
 
