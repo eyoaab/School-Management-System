@@ -28,7 +28,9 @@ exports.getAllSemesters = async (req, res) => {
 // Get a semester by ID
 exports.getSemesterById = async (req, res) => {
   try {
-    const semester = await Semester.findById(req.params.id).populate('coursesOffered', 'name');
+    const semisterId = req.params.id;
+    if(!semisterId) return res.status(400).json({message: "Please select a right semisrt"});
+    const semester = await Semester.findById(req.params.id).populate('coursesOffered', 'name credits');
     if (!semester) return res.status(404).json({ message: 'Semester not found' });
     res.status(200).json(semester);
   } catch (error) {

@@ -6,8 +6,8 @@ const Course = require('../Models/course.model');
 exports.enrollStudent = async (req, res) => {
   try {
     const userRole =  req.user.role;
-    if (userRole!== 'student') {
-      return res.status(403).json({ message: 'Only students can enroll in courses' });
+    if (userRole!== 'student' && userRole !== 'administrator') {
+      return res.status(403).json({ message: 'You are not ellegible to create an enrollment' });
     }
     const { studentId, courseId, semesterId } = req.body;
 
