@@ -27,6 +27,7 @@ connectDB();
 
 // Middlewares
 app.use(express.json()); 
+//for cores
 app.use(cors()); 
 // Routes
 
